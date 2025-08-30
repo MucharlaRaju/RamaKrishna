@@ -2,8 +2,8 @@
 import whatsappIcon from "../assets/whatsapp.png";
 
 const WhatsAppButton = () => {
-  const COUNTRY_CODE = "91";
-  const PHONE = "9502017388";
+  const COUNTRY_CODE = "+91";
+  const PHONE = "7569109431";
   const MESSAGE = "Hello! I’d like to book an appointment.";
   const WA_LINK = `https://wa.me/${COUNTRY_CODE}${PHONE}?text=${encodeURIComponent(
     MESSAGE

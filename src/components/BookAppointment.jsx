@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { motion } from "framer-motion";
 
 const ACCESS_KEY = "acf6586b-752c-44ae-9851-9e08576edfb0";
 
@@ -184,11 +183,7 @@ const BookAppointment = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -200 }}
-      transition={{ duration: 1 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
+    <div
       className="text-center p-6 py-20 lg:px-32 w-full overflow-hidden"
       id="book"
     >
@@ -476,7 +471,7 @@ const BookAppointment = () => {
       <p className="text-center text-sm text-gray-500 mt-6">
         You will receive a call from me (RamaKrishna) within 30 min after completing the appointment booking
       </p>
-    </motion.div>
+    </div>
   );
 };
 

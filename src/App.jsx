@@ -6,6 +6,8 @@ import About from './components/About'
 import Tips from './components/Tips'
 import BookAppointment from './components/BookAppointment'
 import WhatsAppButton from './components/WhatsAppButton'
+import Testimonial from './components/Testimonial'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
       <Tips />
       <BookAppointment />
       <WhatsAppButton />
+      <Testimonial />
+      <Footer />
     </div>
   )
 }
