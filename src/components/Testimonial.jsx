@@ -148,7 +148,7 @@ const Testimonial = () => {
   }, []);
 
   return (
-    <section id="testimonials" className="bg-[#F4FAFF]">
+    <section id="testimonials" className="scroll-mt-16 lg:scroll-mt-20 bg-[#F4FAFF]">
       {/* Inject scrollbar hiding styles */}
       <style>{HIDE_SCROLLBAR_CSS}</style>
 

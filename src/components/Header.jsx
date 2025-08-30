@@ -14,8 +14,25 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [active, setActive] = useState(() => window.location.hash || "#home");
 
+  // Helper: get current sticky header height
+  const getHeaderHeight = () => {
+    const header = document.querySelector("header");
+    return (header?.offsetHeight || 0);
+  };
+
+  // Smooth, precise scroll with header offset
+  const scrollToTarget = (hash) => {
+    const id = (hash || "").replace("#", "");
+    const el = document.getElementById(id);
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.pageYOffset - (getHeaderHeight() + 4);
+    window.scrollTo({ top: y, behavior: "smooth" });
+    // Update hash without causing another jump
+    window.history.replaceState(null, "", `#${id}`);
+  };
+
   useEffect(() => {
-    // Update active on hash change (click anchors)
+    // Update active on hash change (back/forward actions)
     const onHash = () => setActive(window.location.hash || "#home");
     window.addEventListener("hashchange", onHash);
 
@@ -28,7 +45,6 @@ const Header = () => {
     if (sections.length) {
       const obs = new IntersectionObserver(
         (entries) => {
-          // pick the intersecting entry with largest intersectionRatio
           const visible = entries.filter((e) => e.isIntersecting);
           if (visible.length) {
             const top = visible.reduce((a, b) =>
@@ -58,7 +74,14 @@ const Header = () => {
           href="#home"
           className="flex items-center gap-3 shrink-0"
           aria-label="Ramakrishna Cares - Home"
-          onClick={() => setActive("#home")}
+          onClick={(e) => {
+            e.preventDefault();
+            setActive("#home");
+            // Ensure any mobile menu is closed before scrolling
+            setIsMenuOpen(false);
+            // Scroll after layout settles
+            requestAnimationFrame(() => scrollToTarget("#home"));
+          }}
         >
           <div className="rounded-full bg-sky-50 p-2">
             <Hospital className="w-7 h-7 text-sky-600" />
@@ -79,7 +102,11 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setActive(link.href)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActive(link.href);
+                  scrollToTarget(link.href);
+                }}
                 className={`text-sm transition-colors flex items-center ${
                   isActive
                     ? "text-sky-700 bg-sky-50 ring-1 ring-sky-100 rounded-lg px-3 py-1 shadow-sm font-medium"
@@ -97,9 +124,10 @@ const Header = () => {
         <div className="hidden md:flex items-center gap-3">
           <a
             href="#book"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               setActive("#book");
-              setIsMenuOpen(false);
+              scrollToTarget("#book");
             }}
             className={`inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition ${
               active === "#book"
@@ -138,9 +166,12 @@ const Header = () => {
               <a
                 href={link.href}
                 key={link.href}
-                onClick={() => {
-                  setIsMenuOpen(false);
+                onClick={(e) => {
+                  e.preventDefault();
                   setActive(link.href);
+                  setIsMenuOpen(false);
+                  // Wait for menu collapse animation (200ms), then scroll
+                  setTimeout(() => scrollToTarget(link.href), 220);
                 }}
                 className={`block w-full text-left px-3 py-2 rounded-md transition ${
                   isActive
@@ -156,9 +187,11 @@ const Header = () => {
           <div className="mt-2 px-3">
             <a
               href="#book"
-              onClick={() => {
-                setIsMenuOpen(false);
+              onClick={(e) => {
+                e.preventDefault();
                 setActive("#book");
+                setIsMenuOpen(false);
+                setTimeout(() => scrollToTarget("#book"), 220);
               }}
               className={`block text-center w-full py-2 rounded-lg font-medium transition ${
                 active === "#book" ? "bg-white text-sky-700 ring-1 ring-sky-100 border border-sky-100" : "bg-sky-600 text-white hover:bg-sky-700"

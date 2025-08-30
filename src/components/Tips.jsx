@@ -39,7 +39,7 @@ const Tips = () => {
   ];
 
   return (
-    <section id="tips" className="scroll-mt-20 max-w-6xl mx-auto px-4 py-12">
+    <section id="tips" className="scroll-mt-16 lg:scroll-mt-20 max-w-6xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Simple Health Tips</h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">Follow these easy habits every day to stay fit, active, and healthy.</p>

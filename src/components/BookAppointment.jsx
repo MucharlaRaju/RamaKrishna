@@ -184,7 +184,7 @@ const BookAppointment = () => {
 
   return (
     <div
-      className="text-center p-6 py-20 lg:px-32 w-full overflow-hidden"
+      className="scroll-mt-16 lg:scroll-mt-20 text-center p-6 py-20 lg:px-32 w-full overflow-hidden"
       id="book"
     >
       <ToastContainer />
@@ -211,13 +211,13 @@ const BookAppointment = () => {
               >
                 {n}
               </div>
-              {n < 3 && (
-                <div
-                  className={`w-12 h-0.5 ${
-                    step > n ? "bg-sky-600" : "bg-gray-200"
-                  }`}
-                />
-              )}
+                {n < 3 && (
+                  <div
+                    className={`w-12 h-0.5 ${
+                      step > n ? "bg-sky-600" : "bg-gray-200"
+                    }`}
+                  />
+                )}
             </div>
           ))}
         </div>

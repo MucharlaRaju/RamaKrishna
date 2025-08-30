@@ -55,7 +55,7 @@ const services = [
 
 const Services = () => {
   return (
-    <section id='services' className='scroll-mt-20 pt-24 pb-8 bg-gradient-to-br from-white to-sky-50'>
+    <section id='services' className='scroll-mt-16 lg:scroll-mt-20 pt-24 pb-8 bg-gradient-to-br from-white to-sky-50'>
       <div className='container mx-auto px-4'>
         <div className='text-center mb-16'>
           <h2 className='text-4xl font-bold text-sky-900 mb-4'>

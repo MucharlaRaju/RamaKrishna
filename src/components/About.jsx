@@ -4,7 +4,7 @@ import { FaUserMd, FaBriefcase, FaGlobe, FaPhoneAlt, FaAward } from 'react-icons
 
 const About = () => {
   return (
-    <section id='about' className='pt-8 pb-20 scroll-mt-20 bg-sky-50'>
+    <section id='about' className='scroll-mt-16 lg:scroll-mt-20 pt-8 pb-20 bg-sky-50'>
       <div className='container mx-auto px-6'>
         <div className='bg-white rounded-3xl shadow-lg overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 lg:p-12'>
           <div className='flex justify-center lg:justify-start'>

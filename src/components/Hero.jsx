@@ -3,7 +3,7 @@ import hero from "../assets/hero.png";
 
 const Hero = () => {
   return (
-    <section id="home" className="bg-white">
+    <section id="home" className="scroll-mt-16 lg:scroll-mt-20 bg-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-10">
           {/* Text */}
