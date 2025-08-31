@@ -211,13 +211,13 @@ const BookAppointment = () => {
               >
                 {n}
               </div>
-                {n < 3 && (
-                  <div
-                    className={`w-12 h-0.5 ${
-                      step > n ? "bg-sky-600" : "bg-gray-200"
-                    }`}
-                  />
-                )}
+              {n < 3 && (
+                <div
+                  className={`w-12 h-0.5 ${
+                    step > n ? "bg-sky-600" : "bg-gray-200"
+                  }`}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -300,7 +300,12 @@ const BookAppointment = () => {
                 <span className="text-sm text-gray-600">Date</span>
                 <input
                   className="w-full border border-gray-300 rounded py-3 px-4 mt-2 focus:ring-sky-400 focus:border-sky-400"
-                  type="date"
+                  type="text"
+                  placeholder="dd-mm-yy"
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!e.target.value) e.target.type = "text";
+                  }}
                   min={minDate}
                   value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
@@ -371,7 +376,7 @@ const BookAppointment = () => {
               <span className="text-sm text-gray-600">Additional Notes (optional)</span>
               <textarea
                 className="w-full border border-gray-300 rounded py-3 px-4 mt-2 h-28 resize-none focus:ring-sky-400 focus:border-sky-400"
-                placeholder="Site location, preferred slot window, etc."
+                placeholder="Anything additional you want to mention"
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
               />
@@ -469,7 +474,7 @@ const BookAppointment = () => {
       </form>
 
       <p className="text-center text-sm text-gray-500 mt-6">
-        You will receive a call from me (RamaKrishna) within 30 min after completing the appointment booking
+        You will receive a call within 30 min after completing the appointment booking
       </p>
     </div>
   );

@@ -49,7 +49,7 @@ const Hero = () => {
             />
 
             {/* Mobile CTAs (below image, hidden on lg and up) */}
-            <div className="mt-6 flex w-full justify-center gap-3 lg:hidden">
+            <div className="mt-10 sm:mt-12 md:mt-6 flex w-full justify-center gap-3 lg:hidden">
               <a
                 href="#book"
                 className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-5 py-3 text-white text-sm font-medium hover:bg-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 transition"
