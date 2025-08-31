@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Hospital, X, Menu } from "lucide-react";
+import { X, Menu } from "lucide-react";
+import logo from "../assets/logo.svg";
 
 const navList = [
   { href: "#home", label: "Home" },
@@ -84,7 +85,7 @@ const Header = () => {
           }}
         >
           <div className="rounded-full bg-sky-50 p-2">
-            <Hospital className="w-7 h-7 text-sky-600" />
+            <img src={logo} alt="Logo" className="w-7 h-7" />
           </div>
           <div>
             <div className="text-lg font-extrabold text-sky-900 leading-tight">
