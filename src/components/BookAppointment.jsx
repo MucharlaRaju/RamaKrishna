@@ -27,14 +27,6 @@ const BookAppointment = () => {
     botcheck: "",
   });
 
-  // Detect mobile to show placeholder for date input
-  const isMobile = useMemo(() => {
-    if (typeof navigator === "undefined") return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-  }, []);
-
   // Services list (last entry is "Not listed")
   const services = useMemo(
     () => [
@@ -65,14 +57,13 @@ const BookAppointment = () => {
 
   // Helper: return true if slot (HH:MM) on dateStr (YYYY-MM-DD) is strictly in the future
   const isSlotInFuture = (slot, dateStr) => {
-    if (!dateStr) return true; // no date chosen -> show all
+    if (!dateStr) return true;
     const [hh, mm] = slot.split(":").map(Number);
     const [y, m, d] = dateStr.split("-").map(Number);
     const slotDate = new Date(y, m - 1, d, hh, mm, 0, 0);
     return slotDate.getTime() > Date.now();
   };
 
-  // When user changes date, clear previously selected time if it's now invalid
   useEffect(() => {
     if (!form.date) return;
     if (form.time && !isSlotInFuture(form.time, form.date)) {
@@ -99,16 +90,15 @@ const BookAppointment = () => {
   const validStep1 =
     form.fullName.trim().length >= 2 &&
     /^\+?[0-9\s\-]{7,15}$/.test(form.phone.trim()) &&
-    form.address.trim().length >= 5; // require non-trivial address
+    form.address.trim().length >= 5;
 
-  // Step2: require date, time, and service. If "Not listed" selected require customService text.
+  // Step2: require date, time, and service
   const validStep2 =
     form.date.trim() !== "" &&
     form.time.trim() !== "" &&
     (form.service.trim() !== "" &&
       (form.service !== "NOT_LISTED" ? true : form.customService.trim().length > 2));
 
-  // Map "Not listed" to sentinel value
   const serviceOptionValue = (s) =>
     /not\s*listed/i.test(String(s)) ? "NOT_LISTED" : s;
 
@@ -122,7 +112,7 @@ const BookAppointment = () => {
       toast.error("Some details are missing or invalid.");
       return;
     }
-    if (form.botcheck) return; // honeypot
+    if (form.botcheck) return;
 
     setSending(true);
     setResult("Sending....");
@@ -138,14 +128,12 @@ const BookAppointment = () => {
       fd.append("subject", `New Appointment — ${form.fullName} • ${subjectService}`);
       fd.append("page_url", window.location.href);
 
-      // Fields in email
       fd.append("Name", form.fullName.trim());
       fd.append("Phone", form.phone.trim());
       fd.append("Address", form.address.trim());
       fd.append("Date", form.date);
       fd.append("Time", form.time);
 
-      // Only one service field
       if (form.service === "NOT_LISTED") {
         fd.append("Custom Service (user provided)", form.customService.trim());
       } else {
@@ -197,6 +185,21 @@ const BookAppointment = () => {
     >
       <ToastContainer />
 
+      {/* Hide native date placeholder text when empty (WebKit mobile), so our overlay shows only once */}
+      <style>{`
+        input[type="date"].overlay-date:invalid::-webkit-datetime-edit,
+        input[type="date"].overlay-date:invalid::-webkit-datetime-edit-year-field,
+        input[type="date"].overlay-date:invalid::-webkit-datetime-edit-month-field,
+        input[type="date"].overlay-date:invalid::-webkit-datetime-edit-day-field,
+        input[type="date"].overlay-date:invalid::-webkit-datetime-edit-text {
+          color: transparent;
+        }
+        input[type="date"].overlay-date:focus::-webkit-datetime-edit,
+        input[type="date"].overlay-date:valid::-webkit-datetime-edit {
+          color: inherit;
+        }
+      `}</style>
+
       <h1 className="text-2xl sm:text-4xl font-bold mb-2 text-center">
         Book an{" "}
         <span className="underline underline-offset-4 decoration-1 under font-light">
@@ -208,7 +211,7 @@ const BookAppointment = () => {
       </p>
 
       <form onSubmit={onSubmit} className="max-w-2xl mx-auto text-gray-600 pt-2">
-        {/* Stepper: completed steps stay blue */}
+        {/* Stepper */}
         <div className="mb-6 flex items-center gap-4 justify-center">
           {[1, 2, 3].map((n) => (
             <div key={n} className="flex items-center gap-4">
@@ -241,7 +244,7 @@ const BookAppointment = () => {
           className="hidden"
         />
 
-        {/* STEP 1: Name + Phone + Address (Address required) */}
+        {/* STEP 1 */}
         {step === 1 && (
           <div className="space-y-6 text-left">
             <label className="block">
@@ -285,9 +288,7 @@ const BookAppointment = () => {
                 type="button"
                 onClick={() => {
                   if (!validStep1) {
-                    toast.error(
-                      "Please enter a valid name, phone number, and address."
-                    );
+                    toast.error("Please enter a valid name, phone number, and address.");
                     return;
                   }
                   setStep(2);
@@ -300,27 +301,29 @@ const BookAppointment = () => {
           </div>
         )}
 
-        {/* STEP 2: Date + Time + Service */}
+        {/* STEP 2 */}
         {step === 2 && (
           <div className="space-y-6 text-left">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <label className="block">
                 <span className="text-sm text-gray-600">Date</span>
-                <input
-                  className="w-full border border-gray-300 rounded py-3 px-4 mt-2 focus:ring-sky-400 focus:border-sky-400"
-                  type={isMobile ? (form.date ? "date" : "text") : "date"}
-                  placeholder={isMobile ? "dd-mm-yyyy" : undefined}
-                  onFocus={(e) => {
-                    if (isMobile) e.target.type = "date";
-                  }}
-                  onBlur={(e) => {
-                    if (isMobile && !e.target.value) e.target.type = "text";
-                  }}
-                  min={minDate}
-                  value={form.date}
-                  onChange={(e) => setForm({ ...form, date: e.target.value })}
-                  required
-                />
+                {/* Always date input + overlay; native placeholder hidden when empty via CSS above */}
+                <div className="relative mt-2">
+                  <input
+                    className="overlay-date w-full border border-gray-300 rounded py-3 px-4 focus:ring-sky-400 focus:border-sky-400"
+                    type="date"
+                    autoComplete="off"
+                    min={minDate}
+                    value={form.date}
+                    onChange={(e) => setForm({ ...form, date: e.target.value })}
+                    required
+                  />
+                  {!form.date && (
+                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                      dd-mm-yyyy
+                    </span>
+                  )}
+                </div>
               </label>
 
               <label className="block">
@@ -404,9 +407,7 @@ const BookAppointment = () => {
                 type="button"
                 onClick={() => {
                   if (!validStep2) {
-                    toast.error(
-                      "Please select date, time and a service (or describe it)."
-                    );
+                    toast.error("Please select date, time and a service (or describe it).");
                     return;
                   }
                   setStep(3);
@@ -419,7 +420,7 @@ const BookAppointment = () => {
           </div>
         )}
 
-        {/* STEP 3: Review & Confirm */}
+        {/* STEP 3 */}
         {step === 3 && (
           <div className="space-y-6 text-left">
             <div className="bg-gray-50 p-4 rounded-md">
@@ -442,9 +443,7 @@ const BookAppointment = () => {
                 <div>
                   <span className="text-gray-500 text-sm">Service: </span>
                   <span className="font-medium text-gray-800">
-                    {form.service === "NOT_LISTED"
-                      ? form.customService || "-"
-                      : form.service || "-"}
+                    {form.service === "NOT_LISTED" ? form.customService || "-" : form.service || "-"}
                   </span>
                 </div>
                 <div>

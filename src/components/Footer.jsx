@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
 
         {/* Main footer */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
           {/* Explore */}
           <div className="min-w-0">
             <h3 className="text-[#0069A8] font-semibold text-lg">Explore</h3>
@@ -56,7 +56,7 @@ const Footer = () => {
             </p>
             <a
               href="mailto:m.raju20021@gamil.com"
-              className="mt-3 inline-block text-sm font-medium text-[#0069A8] hover:underline break-words"
+              className="mt-3 inline-block text-sm font-medium text-[#0069A8] hover:underline break-words mx-auto md:mx-0"
             >
               m.raju20021@gamil.com
             </a>
@@ -70,7 +70,7 @@ const Footer = () => {
             </p>
             <a
               href="tel:+917569109431"
-              className="mt-3 inline-block text-sm font-medium text-[#0069A8] hover:underline break-words"
+              className="mt-3 inline-block text-sm font-medium text-[#0069A8] hover:underline break-words mx-auto md:mx-0"
             >
               +91 75691 09431
             </a>
