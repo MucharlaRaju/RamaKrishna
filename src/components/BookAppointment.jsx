@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ACCESS_KEY = "acf6586b-752c-44ae-9851-9e08576edfb0";
+const ACCESS_KEY = "98051aaf-9bad-4a75-8cdb-7f579bf5ce89";
 
 /**
  * 3-step appointment booking using Web3Forms.
@@ -26,6 +26,14 @@ const BookAppointment = () => {
     notes: "",
     botcheck: "",
   });
+
+  // Detect mobile to show placeholder for date input
+  const isMobile = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  }, []);
 
   // Services list (last entry is "Not listed")
   const services = useMemo(
@@ -70,7 +78,7 @@ const BookAppointment = () => {
     if (form.time && !isSlotInFuture(form.time, form.date)) {
       setForm((p) => ({ ...p, time: "" }));
     }
-  }, [form.date]);
+  }, [form.date, form.time]);
 
   // Format "HH:MM" (24h) to 12-hour display like "08:00 am" or "8:00 pm"
   const formatTime = (t) => {
@@ -300,11 +308,13 @@ const BookAppointment = () => {
                 <span className="text-sm text-gray-600">Date</span>
                 <input
                   className="w-full border border-gray-300 rounded py-3 px-4 mt-2 focus:ring-sky-400 focus:border-sky-400"
-                  type="text"
-                  placeholder="dd-mm-yy"
-                  onFocus={(e) => (e.target.type = "date")}
+                  type={isMobile ? (form.date ? "date" : "text") : "date"}
+                  placeholder={isMobile ? "dd-mm-yyyy" : undefined}
+                  onFocus={(e) => {
+                    if (isMobile) e.target.type = "date";
+                  }}
                   onBlur={(e) => {
-                    if (!e.target.value) e.target.type = "text";
+                    if (isMobile && !e.target.value) e.target.type = "text";
                   }}
                   min={minDate}
                   value={form.date}
