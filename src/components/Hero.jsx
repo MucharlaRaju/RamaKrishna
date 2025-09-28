@@ -25,7 +25,7 @@ const Hero = () => {
                 <span>Book Appointment</span>
               </a>
               <a
-                href="tel:9502017388"
+                href="tel:7569109431"
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-5 py-3 text-slate-700 text-base font-medium hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 transition"
               >
                 <Phone className="h-5 w-5" />
@@ -58,7 +58,7 @@ const Hero = () => {
                 <span>Book Appointment</span>
               </a>
               <a
-                href="tel:9502017388"
+                href="tel:7569109431"
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-5 py-3 text-slate-700 text-sm font-medium hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 transition"
               >
                 <Phone className="h-5 w-5" />
