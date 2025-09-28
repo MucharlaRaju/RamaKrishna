@@ -55,10 +55,10 @@ const Footer = () => {
               For any queries or support, feel free to reach out:
             </p>
             <a
-              href="mailto:m.raju20021@gamil.com"
+              href="mailto:arupularamakrishna@gmail.com"
               className="mt-3 inline-block text-sm font-medium text-[#0069A8] hover:underline break-words mx-auto md:mx-0"
             >
-              m.raju20021@gamil.com
+              arupularamakrishna@gmail.com
             </a>
           </div>
 
